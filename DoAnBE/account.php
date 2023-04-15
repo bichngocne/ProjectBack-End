@@ -44,12 +44,12 @@ if (!empty($_POST['username']) && !empty($_POST['pass'])) {
             //chuyen trang
             if (isset($userByUsername['type_user'])) {
                 if (($userByUsername['type_user']) == "customer") {
-                    header('Location: index.php');
+                    header('Location: Index.php');
                 } else {
                     header('Location: manageBook.php');
                 }
             } else {
-                echo "index.php";
+                echo "Index.php";
             }
         } else {
             echo "<script type='text/javascript'>alert('Tài khoản hoặc mật khẩu sai');</script>";
@@ -77,7 +77,8 @@ if (!empty($_POST['username']) && !empty($_POST['pass'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Config</title>
+    <link rel="icon" type="image/x-icon" href="./public/images/th.jpg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/all.min.css">
     <link rel="stylesheet" href="./css/styles.css">
@@ -116,7 +117,7 @@ if (!empty($_POST['username']) && !empty($_POST['pass'])) {
         </div>
     </div>
     <div class="container-fluid bg-light" style="padding: 0;">
-        <div class="container-fluid bg-light" style="padding: 0;">
+        <div class="container-fluid bg-light" style="padding: 0; position: sticky;top: 0;left: 0;right: 0;">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
