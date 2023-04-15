@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 require_once './config/database.php';
 spl_autoload_register(
@@ -29,9 +32,9 @@ if (isset($_GET['like'])) {
     if (!isset($_COOKIE["like$idlike"])) {
         $bookModel->setLikeBook($idlike);
         setcookie("like$idlike", $idlike, time() + 3600 * 2);
-        header("Location:index.php");
+        header("Location:Index.php");
     } else {
-        header("Location:index.php");
+        header("Location:Index.php");
     }
 }
 ?>
@@ -86,7 +89,7 @@ if (isset($_GET['like'])) {
     <!-- Navigation -->
 
     <div class="container-fluid bg-light" style="padding: 0;">
-        <div class="container-fluid bg-light" style="padding: 0;">
+        <div class="container-fluid bg-light" style="padding: 0; position: sticky;top: 0;left: 0;right: 0;">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,6 +153,7 @@ if (isset($_GET['like'])) {
                                                 <?php echo $_SESSION['username'] ?>
                                             </i>
                                             <div class="dropdown-content">
+                                                <a href="showOderUser.php">Đơn Đặt Hàng</a>
                                                 <a href="informationUser.php?id=1">Thông Tin</a>
                                                 <a href="logout.php">Đăng Xuất</a>
                                             </div>
@@ -194,7 +198,7 @@ if (isset($_GET['like'])) {
                         ?>
                             <a href="book.php?id_book=<?php echo $value['id_book'] ?>" class="book__item">
                                 <img src="./public/images/<?php $item_photo = explode(",", $value['book_photo']);
-                                                            echo $item_photo[0]?>" alt="" class="img-fluid book__photo" style="width:100px;height:90px;">
+                                                            echo $item_photo[0] ?>" alt="" class="img-fluid book__photo" style="width:100px;height:90px;">
                                 <div class="book__name"><?php echo $value['book_name'] ?>
                                 </div>
 
@@ -226,7 +230,7 @@ if (isset($_GET['like'])) {
                             <div class="icon__book">
                                 <a href="book.php?id_book=<?php echo $item['id_book'] ?>"><i class="fa-solid fa-eye"></i></a><?php echo $item['view'] ?>
                                 <?php if (isset($_SESSION['username'])) { ?>
-                                    <a href="index.php?like=<?php echo $item['id_book'] ?>&#list-book"><i class="fa-regular fa-heart"></i></a><?php echo $item['like'] ?>
+                                    <a href="Index.php?like=<?php echo $item['id_book'] ?>&#list-book"><i class="fa-regular fa-heart"></i></a><?php echo $item['like'] ?>
                                 <?php } ?>
 
                             </div>
@@ -238,141 +242,141 @@ if (isset($_GET['like'])) {
                 ?>
             </div>
         </div>
-    </div>
-    <div class="page">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination" style="justify-content: center;padding-top: 40px">
-                <li class="page-item">
-                    <?php
-                    if (isset($_GET['page'])) {
-                        if ($_GET['page'] != 1) {
-                    ?>
-                            <a class="page-link" name="Previous" href="Index.php?page=<?php echo $_GET['page'] - 1 ?>" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                    <?php
+        </div>
+        <div class="page">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" style="justify-content: center;padding-top: 40px">
+                    <li class="page-item">
+                        <?php
+                        if (isset($_GET['page'])) {
+                            if ($_GET['page'] != 1) {
+                        ?>
+                                <a class="page-link" name="Previous" href="Index.php?page=<?php echo $_GET['page'] - 1 ?>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                        <?php
+                            }
                         }
-                    }
 
-                    ?>
+                        ?>
 
-                </li>
-                <?php
-                for ($i = 1; $i <= $totalPage; $i++) {
-                    # code...
-                ?>
-                    <li class="page-item"><a class="page-link" href="Index.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
-                <?php
-                }
-                ?>
-                <li class="page-item">
+                    </li>
                     <?php
-                    if (isset($_GET['page'])) {
-                        if ($_GET['page'] != $totalPage) {
+                    for ($i = 1; $i <= $totalPage; $i++) {
+                        # code...
                     ?>
-                            <a class="page-link" href="Index.php?page=<?php echo $_GET['page'] + 1 ?>" aria-label="Next" name="next">
+                        <li class="page-item"><a class="page-link" href="Index.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
+                    <?php
+                    }
+                    ?>
+                    <li class="page-item">
+                        <?php
+                        if (isset($_GET['page'])) {
+                            if ($_GET['page'] != $totalPage) {
+                        ?>
+                                <a class="page-link" href="Index.php?page=<?php echo $_GET['page'] + 1 ?>" aria-label="Next" name="next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <a class="page-link" href="Index.php?page=2" aria-label="Next" name="next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         <?php
                         }
-                    } else {
                         ?>
-                        <a class="page-link" href="Index.php?page=2" aria-label="Next" name="next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    <?php
-                    }
-                    ?>
 
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <!-- Footer -->
-    <div class="container footer__book">
-        <div class="form__foter">
-            <form action="">
-                <label for="" style="color: white;">ĐĂNG KÝ NHẬN BẢN TIN</label>
-                <input type="text" class="input__email" name="" placeholder="nhập địa chỉ email của bạn">
-                <button class="btn__dangKy">Đăng ký</button>
-            </form>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <div class="row">
-            <div class="col-md-4 left__footer">
-                <h3 class="name__footer">Daisuki.com</h3>
-                <p>14/6 đường sô 9 ,phường Linh Trung , quận Thủ Đức , thành phố Hồ Chí Minh Công ty cổ phần phát hành sách Daisuki
-                    <br>
-                    daisuki.com nhận đặt hàng trực tuyến và giao hàng tận nơi. KHÔNG hỗ trợ đặt mua và nhận hàng trực tiếp tại văn phòng.
-                </p>
-                <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-facebook"></i> </a>
-                <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-youtube"></i> </a>
-                <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-square-instagram"></i> </a>
-                <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-twitter"></i> </a>
-                <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-telegram"></i> </a>
-                <img src="./public/images/ggPlay.png" alt="" class="img-fluid item__dowloadApp">
-                <img src="./public/images/Download_on_the_App_Store_Badge.svg.png" alt="" class="img-fluid item__dowloadAppstore">
+        <!-- Footer -->
+        <div class="container footer__book">
+            <div class="form__foter">
+                <form action="">
+                    <label for="" style="color: white;">ĐĂNG KÝ NHẬN BẢN TIN</label>
+                    <input type="text" class="input__email" name="" placeholder="nhập địa chỉ email của bạn">
+                    <button class="btn__dangKy">Đăng ký</button>
+                </form>
             </div>
-            <div class="col-md-8 right__footer">
-                <div class="row">
-                    <div class="col-md-4 ">
-                        <h5>Dịch vụ</h5>
-                        <a href="" class="item__footerRight">Điều khoản sử dụng</a>
+            <div class="row">
+                <div class="col-md-4 left__footer">
+                    <h3 class="name__footer">Daisuki.com</h3>
+                    <p>14/6 đường sô 9 ,phường Linh Trung , quận Thủ Đức , thành phố Hồ Chí Minh Công ty cổ phần phát hành sách Daisuki
                         <br>
-                        <br>
-                        <a href="" class="item__footerRight">Chính sách bảo mật thông tin cá nhân</a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Chính sách bảo mật thanh toán</a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Giới thiệu Daisuki</a>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>Hỗ trợ</h5>
-                        <a href="" class="item__footerRight">Chính sách đổi trả-hoàn tiền</a>
-                        <br>
-                        <br>
-
-                        <a href="" class="item__footerRight">Chính sách bảo hành - bồi toàn</a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Chính sách vận chuyển </a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Chính sách khách sỉ</a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Chính sách thanh toán và xuất HĐ</a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <h5>Tài khoản của tôi</h5>
-                        <a href="account.php?id=1" class="item__footerRight">Đăng nhập/Tạo tài khoản mới</a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Thay đổi địa chỉ khách hàng</a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Chi tiết tài khoản </a>
-                        <br>
-                        <br>
-                        <a href="" class="item__footerRight">Lịch sử mua hàng</a>
-
-                    </div>
-
+                        daisuki.com nhận đặt hàng trực tuyến và giao hàng tận nơi. KHÔNG hỗ trợ đặt mua và nhận hàng trực tiếp tại văn phòng.
+                    </p>
+                    <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-facebook"></i> </a>
+                    <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-youtube"></i> </a>
+                    <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-square-instagram"></i> </a>
+                    <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-twitter"></i> </a>
+                    <a class="item__icon" style="font-size:40px;"> <i class="fa-brands fa-telegram"></i> </a>
+                    <img src="./public/images/ggPlay.png" alt="" class="img-fluid item__dowloadApp">
+                    <img src="./public/images/Download_on_the_App_Store_Badge.svg.png" alt="" class="img-fluid item__dowloadAppstore">
                 </div>
-                <h5 style=" margin-top: 20px;">Liên hệ </h5>
-                <a class="item__lienhe"><i class="fa-solid fa-location-dot"></i>14/6,Linh Trung ,Thủ Đức.</a>
-                <a class="item__lienhe"> <i class="fa-solid fa-envelope"></i>daisuki@gmail.com </a>
-                <a class="item__lienhe"> <i class="fa-solid fa-phone"></i> 0985663329</a>
-                <br>
-                <img src="./public/images/ghn.jpg" alt="img-fluid" class="photo_giaoHang">
-                <img src="./public/images/appmomo.png" alt="img-fluid " class="photo_giaoHangAppmomo">
-                <img src="./public/images/vnpayqr.png" alt="img-fluid" class="photo_giaoHangVnpay">
-                <img src="./public/images/zalopay.jpg" alt="img-fluid" class="photo_giaoHang">
+                <div class="col-md-8 right__footer">
+                    <div class="row">
+                        <div class="col-md-4 ">
+                            <h5>Dịch vụ</h5>
+                            <a href="" class="item__footerRight">Điều khoản sử dụng</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Chính sách bảo mật thông tin cá nhân</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Chính sách bảo mật thanh toán</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Giới thiệu Daisuki</a>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Hỗ trợ</h5>
+                            <a href="" class="item__footerRight">Chính sách đổi trả-hoàn tiền</a>
+                            <br>
+                            <br>
+
+                            <a href="" class="item__footerRight">Chính sách bảo hành - bồi toàn</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Chính sách vận chuyển </a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Chính sách khách sỉ</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Chính sách thanh toán và xuất HĐ</a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <h5>Tài khoản của tôi</h5>
+                            <a href="account.php?id=1" class="item__footerRight">Đăng nhập/Tạo tài khoản mới</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Thay đổi địa chỉ khách hàng</a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Chi tiết tài khoản </a>
+                            <br>
+                            <br>
+                            <a href="" class="item__footerRight">Lịch sử mua hàng</a>
+
+                        </div>
+
+                    </div>
+                    <h5 style=" margin-top: 20px;">Liên hệ </h5>
+                    <a class="item__lienhe"><i class="fa-solid fa-location-dot"></i>14/6,Linh Trung ,Thủ Đức.</a>
+                    <a class="item__lienhe"> <i class="fa-solid fa-envelope"></i>daisuki@gmail.com </a>
+                    <a class="item__lienhe"> <i class="fa-solid fa-phone"></i> 0985663329</a>
+                    <br>
+                    <img src="./public/images/ghn.jpg" alt="img-fluid" class="photo_giaoHang">
+                    <img src="./public/images/appmomo.png" alt="img-fluid " class="photo_giaoHangAppmomo">
+                    <img src="./public/images/vnpayqr.png" alt="img-fluid" class="photo_giaoHangVnpay">
+                    <img src="./public/images/zalopay.jpg" alt="img-fluid" class="photo_giaoHang">
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </body>
 
